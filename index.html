@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MKF Bookings</title>
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#F4F6F7">
+<meta name="robots" content="noindex">
+<style>
+  html, body { margin: 0; height: 100%; background: #F4F6F7; }
+  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }
+</style>
+</head>
+<body>
+<!-- MKF Bookings: shows the Google Apps Script app full screen, without Google's banner.
+     Contract (?sign=) and receipt (?receipt=) codes are passed through to the app. -->
+<iframe id="app" title="MKF Bookings" allow="camera; clipboard-write; fullscreen"></iframe>
+<script>
+  var APP = 'https://script.google.com/macros/s/AKfycbyW71pxUxwMdRvySPoKhuoTuacz-RRLGNi1Vl-1b8ymEIuGVxXIoFSp3cK29TCm9V0M4Q/exec';
+  var q = new URLSearchParams(location.search), keep = new URLSearchParams();
+  ['sign', 'receipt'].forEach(function (k) {
+    var v = q.get(k);
+    if (v && v.length <= 300) keep.set(k, v);
+  });
+  var s = keep.toString();
+  document.getElementById('app').src = APP + (s ? '?' + s : '');
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function () {});
+</script>
+</body>
+</html>
