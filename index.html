@@ -26,7 +26,16 @@
     if (v && v.length <= 300) keep.set(k, v);
   });
   var s = keep.toString();
-  document.getElementById('app').src = APP + (s ? '?' + s : '');
+  if (s) {
+    document.getElementById('app').src = APP + '?' + s;   // renter contract / receipt only
+  } else {
+    // Plain address: nothing to open here (the staff app is not reachable from this page).
+    document.getElementById('app').remove();
+    document.body.innerHTML = '<div style="font-family:system-ui,sans-serif;text-align:center;padding:60px 20px;color:#334">' +
+      '<img src="icon-192.png" alt="MKF Car Rentals" style="width:120px;height:120px">' +
+      '<h1 style="font-size:20px;margin:16px 0 6px">M.K.F Car Rentals Inc.</h1>' +
+      '<p style="margin:0;color:#667">Use the link in your message to open your rental agreement or receipt.</p></div>';
+  }
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function () {});
 </script>
 </body>
